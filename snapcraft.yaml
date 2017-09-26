@@ -1,0 +1,35 @@
+name: samplesnap
+version: 0.1
+
+#list of architectures the snap may run on. Defaults to [all].
+#architectures: 
+#	- all | amd64 | i386 | armhf
+architectures: [ amd64 ]
+
+summary: Hello snap
+
+description: |
+ Sample snap for saying hello
+
+confinement: devmode
+
+grade: devel
+
+apps:
+  samplesnap:
+    command: bin/sample-snap
+
+parts:
+  samplesnap:
+    plugin: make
+    build-packages: [ gcc, g++ ]
+    source: .
+    artifacts: [bin/sample-snap]
+    filesets:
+      binaries:
+        - bin/sample-snap
+    install: |
+        cp conf/test.conf $SNAPCRAFT_PART_INSTALL 
+    prime:
+      - $binaries
+    
